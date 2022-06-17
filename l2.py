@@ -3,13 +3,16 @@ implement average function:
 average([x1,x2,...,xn])= x1+x2+···+xn/n
 where, n > 0
 """
-average = lambda l: l
+average = lambda l: reduce(lambda x, y: x + y, l) / len(l)
 
 
 def average_test() -> None:
-	pass
-	# assert average([1, 2, 3, 4]) == 2.75
-	# assert average([0, 2, 3, 4]) == 2.25
+	print('Test average for [1, 2, 3, 4]')
+	assert average([1, 2, 3, 4]) == 2.5
+	print('OK')
+	print('Test average for [0, 2, 3, 4]')
+	assert average([0, 2, 3, 4]) == 2.25
+	print('OK')
 
 
 """
