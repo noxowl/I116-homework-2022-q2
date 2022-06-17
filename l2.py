@@ -9,7 +9,7 @@ average = lambda l: l
 def average_test() -> None:
 	pass
 	# assert average([1, 2, 3, 4]) == 2.75
-	# assert average([0, 2, 3, 4]) == 3
+	# assert average([0, 2, 3, 4]) == 2.25
 
 
 """
@@ -68,7 +68,7 @@ def palindrome_test() -> None:
 
 """
 A list [x1, x2, . . . , xn] over numbers is called ascending if
-x1 􏰀<= x2 <= ··· <= xn holds. Implement the function ascending(L) that decides if the list L is ascending. E.g.,
+x1 <= x2 <= ··· <= xn holds. Implement the function ascending(L) that decides if the list L is ascending. E.g.,
 ascending([2, 4, 7]) = True
 ascending([2, 4, 7, 3]) = False
 """
