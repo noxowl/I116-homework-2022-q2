@@ -3,6 +3,7 @@ implement average function:
 average([x1,x2,...,xn])= x1+x2+···+xn/n
 where, n > 0
 """
+from functools import reduce
 average = lambda l: reduce(lambda x, y: x + y, l) / len(l)
 
 
