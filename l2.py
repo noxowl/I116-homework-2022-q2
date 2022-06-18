@@ -31,12 +31,24 @@ def double_test() -> None:
 """
 Implement matrix addition.
 """
-# matrix_addition = lambda x, y: 
+def matrix_addition(x: list, y: list) -> list:
+    if len(x) != len(y): raise IndexError
+    result = []
+    for ri in range(len(x)):
+        if len(x[ri]) != len(y[ri]): raise IndexError
+        result.append([x[ri][ci] + y[ri][ci] for ci in range(len(x[ri]))])
+    return result
 
 
 def matrix_addition_test() -> None:
-    pass
-    # assert matrix_addition([[1, 2], [3, 4]], [[1, 2], [3, 4]])
+    print('Test matrix_addition for [[1, 2], [3, 4]]')
+    assert matrix_addition([[1, 2], [3, 4]], [[1, 2], [3, 4]]) == [[2, 4], [6, 8]]
+    print('OK')
+    print('Test matrix_addition for [[1, 2], [3, 4, 5]]')
+    try:
+        matrix_addition([[1, 2], [3, 4]], [[1, 2], [3, 4, 5]])
+    except IndexError:
+        print('IndexError raised. OK')
 
 
 """
@@ -76,7 +88,6 @@ x1 <= x2 <= ··· <= xn holds. Implement the function ascending(L) that decides
 ascending([2, 4, 7]) = True
 ascending([2, 4, 7, 3]) = False
 """
-from functools import reduce
 ascending = lambda l: next(filter(lambda x: x == False, [l[i] <= l[i + 1 if i < len(l) - 1 else i] for i in range(len(l))]), True)
 
 
@@ -117,6 +128,7 @@ join([”a”, ”b”], ” + ”) = ”a + b”
 join([”a”, ”b”, ”c”], ” + ”) = ”a + b + c”
 """
 join = lambda x, y: f'{y}'.join(x)
+
 
 def join_test() -> None:
     print('Test join for ["123", "45", "67"] and "ab"')
