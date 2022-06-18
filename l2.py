@@ -46,7 +46,7 @@ def matrix_addition_test() -> None:
     print('OK')
     print('Test matrix_addition for [[1, 2], [3, 4, 5]]')
     try:
-        matrix_addition([[1, 2], [3, 4]], [[1, 2], [3, 4, 5]])
+        assert isinstance(matrix_addition([[1, 2], [3, 4]], [[1, 2], [3, 4, 5]]), list) == False, 'IndexError not occurred. Failed.'
     except IndexError:
         print('IndexError raised. OK')
 
