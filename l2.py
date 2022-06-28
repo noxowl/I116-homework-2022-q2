@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Fundamentals of Programming (Nao Hirokawa)
+Term 1-2(Q2), 2022
+Lecture 2
+
+@Author: RHIE Suyeong(2250008. M.Phil. Student in Transdisciplinary Sciences)
+"""
+
+
 """
 implement average function:
 average([x1,x2,...,xn])= x1+x2+···+xn/n
@@ -21,6 +31,7 @@ Implement the following function:
 double([x1,x2,...,xn]) = [2x1,2x2,...,2xn]
 """
 cal_double = lambda l: [x * 2 for x in l]
+
 
 def double_test() -> None:
     print('Test cal_double for [1, 2, 3, 4]')
