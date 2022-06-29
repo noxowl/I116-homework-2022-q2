@@ -8,14 +8,14 @@ Lecture 1
 """
 
 
-"""
-Implement the factorial function:
-factorial(n) = n!
-"""
 factorial = lambda x: x * factorial(x - 1) if (x > 0) else 1
 
 
 def factorial_test() -> None:
+    """
+    Implement the factorial function:
+    factorial(n) = n!
+    """
     print('Test factorial for 1')
     assert factorial(1) == 1
     print('OK')
@@ -30,13 +30,13 @@ def factorial_test() -> None:
     print('OK')
 
 
-"""
-Implement fib(n) that computes the n-th Fibonacci number:
-"""
 fib = lambda n: n if n < 2 else fib(n - 1) + fib(n - 2)
 
 
 def fib_test() -> None:
+    """
+    Implement fib(n) that computes the n-th Fibonacci number:
+    """
     print('Test fib for 0')
     assert fib(0) == 0
     print('OK')
