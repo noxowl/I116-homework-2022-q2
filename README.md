@@ -3,4 +3,4 @@ This is a Fundamental course, but you must understand everything in just one qua
 <br>
 Hope to understand with these examples.
 
-This course uses Python 10.4.x
+This course uses Python 3.10.x
