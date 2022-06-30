@@ -49,7 +49,7 @@ def myfilter_lambda_test():
 def mymap(f, l):
     m = []
     for x in l:
-        m = m + [f(x)]
+        m.append(f(x))
     return m
 
 
