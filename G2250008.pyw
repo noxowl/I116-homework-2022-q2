@@ -94,9 +94,9 @@ class GameOfLifeLogic:
         for c in self.data.cells:
             current.append([x for x in c])
         for ri in range(len(self.data.cells)):
+            prev_row = self._safe_row_index(ri - 1)
+            next_row = self._safe_row_index(ri + 1)
             for ci in range(len(self.data.cells[ri])):
-                prev_row = self._safe_row_index(ri - 1)
-                next_row = self._safe_row_index(ri + 1)
                 prev_col = self._safe_col_index(ci - 1)
                 next_col = self._safe_col_index(ci + 1)
                 self.data.cells[ri][ci] = self._seek_cell(
