@@ -49,3 +49,141 @@ Remark on Report Submission:
 - no plagiarism: write every single letter by yourself in your understanding
     investigate by yourself what is regarded as plagiarism
 """
+import sys
+import tkinter
+
+
+class GameOfLifeData:
+    def __init__(self, payload):
+        self.cells = []
+        if payload:
+            with open(payload, 'r') as f:
+                for line in f:
+                    line.rstrip('\n')
+                    self.cells.append([l == '#' for l in line])
+        self.rows = len(self.cells)
+        self.row_index = self.rows - 1
+        self.columns = len(self.cells[0] if self.cells else '')
+        self.col_index = self.columns - 1
+
+
+class GameOfLifeLogic:
+    def __init__(self, view, data):
+        self.view: GameOfLifeView = view
+        self.data: GameOfLifeData = data
+        self.view.init_canvas(self.data.rows, self.data.columns)
+
+    def _safe_row_index(self, i: int):
+        if i < 0:
+            return self.data.row_index
+        elif i > self.data.row_index:
+            return 0
+        else:
+            return i
+
+    def _safe_col_index(self, i: int):
+        if i < 0:
+            return self.data.col_index
+        elif i > self.data.col_index:
+            return 0
+        else:
+            return i
+
+    def _check_cells(self):
+        current = []
+        for c in self.data.cells:
+            current.append([x for x in c])
+        for ri in range(len(self.data.cells)):
+            for ci in range(len(self.data.cells[ri])):
+                prev_row = self._safe_row_index(ri - 1)
+                next_row = self._safe_row_index(ri + 1)
+                prev_col = self._safe_col_index(ci - 1)
+                next_col = self._safe_col_index(ci + 1)
+                self.data.cells[ri][ci] = self._seek_cell(
+                    self.data.cells[ri][ci],
+                    (1 if current[prev_row][prev_col] else 0) +
+                    (1 if current[prev_row][ci] else 0) +
+                    (1 if current[prev_row][next_col] else 0) +
+                    (1 if current[ri][prev_col] else 0) +
+                    (1 if current[ri][next_col] else 0) +
+                    (1 if current[next_row][prev_col] else 0) +
+                    (1 if current[next_row][ci] else 0) +
+                    (1 if current[next_row][next_col] else 0)
+                    )
+
+    def _seek_cell(self, alive, neighbors: int):
+        if alive and neighbors < 2 or neighbors > 3:
+            return False
+        else:
+            if not alive and neighbors == 3:
+                return True
+        return alive
+
+    def update(self):
+        self._check_cells()
+        return self.data.cells
+
+    def run(self):
+        self.view._root.after(0, self.view.on_update, self.update)
+        self.view._root.mainloop()
+
+
+class GameOfLifeView:
+    def __init__(self):
+        self._root = tkinter.Tk()
+        self._root.title('Report Assignment - 2250008 RHIE Suyeong')
+        self._canvas = tkinter.Canvas(self._root)
+        self._canvas.pack()
+        self._cr, self._cc = 20, 20
+        self._grid = {}
+        self.cache = []
+
+    def _set_grid(self, rows, columns):
+        for r in range(rows):
+            self._grid.update({r: []})
+            self.cache.append([])
+            for c in range(columns):
+                x1, y1 = c * self._cc, r * self._cr
+                x2, y2 = x1 + self._cc , y1 + self._cr
+                self._grid[r].append(self._canvas.create_rectangle(
+                    x1, y1, x2, y2, fill="#555"))
+                self.cache[r].append(False)
+
+    def init_canvas(self, rows, columns):
+        if rows and columns:
+            self._canvas.config(
+                width=columns*(self._cc),
+                height=rows*(self._cr))
+            self._set_grid(rows, columns)
+
+    def _update_canvas(self):
+        for ri in range(len(self.cache)):
+            for ci in range(len(self.cache[ri])):
+                if self.cache[ri][ci]:
+                    self._canvas.itemconfig(self._grid[ri][ci], fill="#f88")
+                else:
+                    self._canvas.itemconfig(self._grid[ri][ci], fill="#333")
+
+    def on_update(self, f):
+        self.cache = f()
+        self._update_canvas()
+        self._root.after(100, self.on_update, f)
+
+
+class GameOfLife:
+    def __init__(self, payload):
+        self.data = GameOfLifeData(payload)
+        self.view = GameOfLifeView()
+        self.logic = GameOfLifeLogic(self.view, self.data)
+
+    def execute(self):
+        self.logic.run()
+
+
+if __name__ == '__main__':
+    payload = sys.argv[-1]
+    if payload.endswith('.txt'):
+        gol = GameOfLife(payload)
+        gol.execute()
+    else:
+        raise ValueError('No txt file found. Abort.')
