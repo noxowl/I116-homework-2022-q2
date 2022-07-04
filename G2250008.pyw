@@ -108,6 +108,10 @@ class GameOfLifeView:
         self._update_canvas()
         self._root.after(100, self.on_update, f)
 
+    def run(self, f):
+        self._root.after(0, self.on_update, f)
+        self._root.mainloop()
+
 
 class GameOfLifeLogic:
     def __init__(self, view, data):
@@ -166,8 +170,7 @@ class GameOfLifeLogic:
         return self.data.cells
 
     def run(self):
-        self.view._root.after(0, self.view.on_update, self.update)
-        self.view._root.mainloop()
+        self.view.run(self.update)
 
 
 class GameOfLife:
