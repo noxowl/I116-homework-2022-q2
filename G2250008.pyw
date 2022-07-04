@@ -54,10 +54,10 @@ import tkinter
 
 
 class GameOfLifeData:
-    def __init__(self, payload):
+    def __init__(self, seed):
         self.cells = []
-        if payload:
-            with open(payload, 'r') as f:
+        if seed:
+            with open(seed, 'r') as f:
                 for line in f:
                     line.rstrip('\n')
                     self.cells.append([l == '#' for l in line])
@@ -65,6 +65,48 @@ class GameOfLifeData:
         self.row_index = self.rows - 1
         self.columns = len(self.cells[0] if self.cells else '')
         self.col_index = self.columns - 1
+
+
+class GameOfLifeView:
+    def __init__(self):
+        self._root = tkinter.Tk()
+        self._root.title('Report Assignment - 2250008 RHIE Suyeong')
+        self._canvas = tkinter.Canvas(self._root)
+        self._canvas.pack()
+        self._dot_size = 20
+        self._grid = {}
+        self.buffer = []
+
+    def _set_grid(self, rows, columns):
+        for r in range(rows):
+            self._grid.update({r: []})
+            self.buffer.append([])
+            for c in range(columns):
+                x1, y1 = c * self._dot_size, r * self._dot_size
+                x2, y2 = x1 + self._dot_size, y1 + self._dot_size
+                self._grid[r].append(
+                    self._canvas.create_rectangle(x1, y1, x2, y2, fill="#555"))
+                self.buffer[r].append(False)
+
+    def init_canvas(self, rows, columns):
+        if rows and columns:
+            self._canvas.config(
+                width=columns * self._dot_size,
+                height=rows * self._dot_size)
+            self._set_grid(rows, columns)
+
+    def _update_canvas(self):
+        for ri in range(len(self.buffer)):
+            for ci in range(len(self.buffer[ri])):
+                if self.buffer[ri][ci]:
+                    self._canvas.itemconfig(self._grid[ri][ci], fill="#f88")
+                else:
+                    self._canvas.itemconfig(self._grid[ri][ci], fill="#333")
+
+    def on_update(self, f):
+        self.buffer = f()
+        self._update_canvas()
+        self._root.after(100, self.on_update, f)
 
 
 class GameOfLifeLogic:
@@ -126,48 +168,6 @@ class GameOfLifeLogic:
     def run(self):
         self.view._root.after(0, self.view.on_update, self.update)
         self.view._root.mainloop()
-
-
-class GameOfLifeView:
-    def __init__(self):
-        self._root = tkinter.Tk()
-        self._root.title('Report Assignment - 2250008 RHIE Suyeong')
-        self._canvas = tkinter.Canvas(self._root)
-        self._canvas.pack()
-        self._cr, self._cc = 20, 20
-        self._grid = {}
-        self.cache = []
-
-    def _set_grid(self, rows, columns):
-        for r in range(rows):
-            self._grid.update({r: []})
-            self.cache.append([])
-            for c in range(columns):
-                x1, y1 = c * self._cc, r * self._cr
-                x2, y2 = x1 + self._cc , y1 + self._cr
-                self._grid[r].append(self._canvas.create_rectangle(
-                    x1, y1, x2, y2, fill="#555"))
-                self.cache[r].append(False)
-
-    def init_canvas(self, rows, columns):
-        if rows and columns:
-            self._canvas.config(
-                width=columns*(self._cc),
-                height=rows*(self._cr))
-            self._set_grid(rows, columns)
-
-    def _update_canvas(self):
-        for ri in range(len(self.cache)):
-            for ci in range(len(self.cache[ri])):
-                if self.cache[ri][ci]:
-                    self._canvas.itemconfig(self._grid[ri][ci], fill="#f88")
-                else:
-                    self._canvas.itemconfig(self._grid[ri][ci], fill="#333")
-
-    def on_update(self, f):
-        self.cache = f()
-        self._update_canvas()
-        self._root.after(100, self.on_update, f)
 
 
 class GameOfLife:
