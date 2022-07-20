@@ -75,7 +75,6 @@ def f(L, x):
 print(f([3, 6, 1, 2, 3, 4, 5], 3))
 
 
-
 """Question 4:
 Assume that we represent binary trees by nested lists as in our course.
 The mirror image of a binary tree t is the tree resulting from swapping the left and
@@ -123,6 +122,7 @@ def segments(L: list):
     return M
 assert segments([1, 2, 3]) == [[1], [1, 2], [1, 2, 3], [2], [2, 3], [3]]
 print(segments([1, 2, 3]))
+
 
 """Qustion 6:
 Given a directed graph (V,E), a vertex x ∈ V is called a root if every vertex y ∈ V is reachable from
