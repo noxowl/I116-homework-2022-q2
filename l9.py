@@ -8,14 +8,48 @@ Lecture 9
 """
 
 
-"""Exercises
-Implement the membership function member(x, t) that checks if binary search tree t contains label x.
-"""
+def member(x: int, t: list):
+    if not t:
+        return False
+    else:
+        if t[1] == x: 
+            return True
+        elif t[1] < x:
+            return member(x, t[2])
+        else:
+            return member(x, t[0])
 
 
-"""Exercises
-Implement the function add(x, t) that adds x to binary search tree t.
-"""
+def member_test():
+    """Exercises
+    Implement the membership function member(x, t) that checks if binary search tree t contains label x.
+
+    t = [[[],1,[]],2,[[[],3,[]],4,[[],5,[]]]]
+    """
+    t = [[[],1,[]],2,[[[],3,[]],4,[[],5,[]]]]
+    assert member(3, t) == True
+    assert member(7, t) == False
+
+
+def add(x: int, t: list):
+    if not t:
+        return [[], x, []]
+    else:
+        if t[1] == x:
+            return t
+        elif t[1] < x:
+            t[2] = add(x, t[2])
+        else:
+            t[0] = add(x, t[0])
+    return t
+
+
+def add_test():
+    """Exercises
+    Implement the function add(x, t) that adds x to binary search tree t.
+    """
+    t = [[[],1,[]],2,[[[],3,[]],4,[[],5,[]]]]
+    assert add(6, t) == [[[],1,[]], 2, [[[],3,[]], 4 ,[[],5,[[], 6, []]]]]
 
 
 """Exercises
@@ -46,3 +80,6 @@ def succ(A, x):
             ...
     return M
 """
+
+member_test()
+add_test()
