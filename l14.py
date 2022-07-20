@@ -29,7 +29,7 @@ x is variable id 1. x is 5.
 f(x) x has passed to function f()
 
 inside f(x)...
-if not x > 0: -> if x < 0 so we don't need see it.
+if not x > 0: -> if x < 0 so we don't need to see it.
 else:
     x = 2
 this x is same variable id 1. now x is 2.
@@ -43,7 +43,6 @@ now we back to outer scope and x is 5.
 
 """Exercise 2: Destructive Updates
 What is output?
-
 
 L = [0,1,2]
 M = L
