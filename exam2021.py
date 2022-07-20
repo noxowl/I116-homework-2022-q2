@@ -112,8 +112,17 @@ For example, segments([1, 2, 3]) = [[1], [1, 2], [1, 2, 3], [2], [2, 3], [3]]
 holds. Note that the sublists need not to be listed in the above order.
 """
 def segments(L: list):
-    pass
-
+    M = []
+    for i in range(len(L)):
+        temp = [L[i]]
+        M.append(temp[:])
+        if i < len(L):
+            for j in range(i + 1, len(L)):
+                temp.append(L[j])
+                M.append(temp[:])
+    return M
+assert segments([1, 2, 3]) == [[1], [1, 2], [1, 2, 3], [2], [2, 3], [3]]
+print(segments([1, 2, 3]))
 
 """Qustion 6:
 Given a directed graph (V,E), a vertex x ∈ V is called a root if every vertex y ∈ V is reachable from
